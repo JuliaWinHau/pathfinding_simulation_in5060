@@ -56,20 +56,16 @@ class Plot:
 
         # creating voxel obstacles
         if isinstance(self.env, Grid):
+            # number of cells nx, ny, nz in the grid along x, y, z axes.
             nx, ny, nz = self.env.x_range, self.env.y_range, self.env.z_range
 
             # build boolean occupancy grid
             occ = np.zeros((nx, ny, nz), dtype=bool)
-            for (x, y, z) in self.env.obstacles:
+            for x, y, z in self.env.obstacles:
                 if x in range(nx) and y in range(ny) and z in range(nz):
-                    occ[x, y, z] = True
-
-            # plot voxels
-            self.ax.voxels(
-                occ,
-                facecolors=np.broadcast_to((0.3, 0.3, 0.3, 0.5), occ.shape + (4,)),
-                edgecolor='k'
-            )
+                    occ[x, y, z] = True # mark as occupied
+                # create voxels (cubes)
+                self.ax.voxels(occ, facecolors="gray", edgecolor='black')
 
         if isinstance(self.env, Map):
             ax = self.fig.add_subplot()
