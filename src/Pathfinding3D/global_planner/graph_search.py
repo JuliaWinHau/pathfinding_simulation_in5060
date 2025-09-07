@@ -113,7 +113,7 @@ class GraphSearcher(Planner):
         else:
             sz = 0
 
-        # for diagonal moves (k = 2 or 3), check the face-adjacent cells next to the start to prevent corner-cutting
+        # for diagonal moves (k = 2 or 3), check the face-adjacent cells next to the current node to prevent corner-cutting
         # check x neighbor
         if sx and (x1 + sx, y1, z1) in self.obstacles:
             return True  # collision detected

@@ -105,7 +105,7 @@ class Plot:
         self.ax.set_zlabel('Z')
         self.ax.legend(loc="best")
         plt.title(name)
-        # plt.axis("equal")
+        plt.axis("equal")
 
 
     def plotExpand(self, expand: list) -> None:
