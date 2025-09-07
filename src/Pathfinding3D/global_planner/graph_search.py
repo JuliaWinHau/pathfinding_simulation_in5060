@@ -76,11 +76,12 @@ class GraphSearcher(Planner):
         """
         # check if current node or next is an obstacle
         if node1.current in self.obstacles or node2.current in self.obstacles:
-            return True
+            return True # collision detected
 
         x1, y1, z1 = node1.x, node1.y, node1.z
         x2, y2, z2 = node2.x, node2.y, node2.z
 
+        # this collision detection is for 3D obstacles with help of GPT
         # how did we move along each axis for this step
         dx, dy, dz = x2 - x1, y2 - y1, z2 - z1
 
@@ -113,7 +114,8 @@ class GraphSearcher(Planner):
         else:
             sz = 0
 
-        # for diagonal moves (k = 2 or 3), check the face-adjacent cells next to the current node to prevent corner-cutting
+        # For diagonal moves (k=2 or 3), check the neighbors that share a face with the start cell
+        #if any are obstacles, block the move to prevent corner-cutting of voxels (cubes).
         # check x neighbor
         if sx and (x1 + sx, y1, z1) in self.obstacles:
             return True  # collision detected
@@ -129,6 +131,8 @@ class GraphSearcher(Planner):
         # none of the side cells are obstacles
         return False  # no collision so safe to move
 
+
+        # for 3D diagonal attempt
         #if x1 != x2 and y1 != y2 and z1 != z2:
             #if x2 - x1 == y1 - y2:
                 #s1 = (min(x1, x2), min(y1, y2), z1)
@@ -138,7 +142,7 @@ class GraphSearcher(Planner):
                 #s2 = (max(x1, x2), min(y1, y2), z2)
             #if s1 in self.obstacles or s2 in self.obstacles:
                 #return True
-        # 2D diagonal in XY plane
+        # 2D diagonal
         #elif x1 != x2 and y1 != y2:
             #if x2 - x1 == y1 - y2:
                 #s1 = (min(x1, x2), min(y1, y2), z1)
