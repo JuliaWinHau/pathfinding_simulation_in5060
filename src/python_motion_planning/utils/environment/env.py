@@ -11,6 +11,7 @@ import numpy as np
 
 from .node import Node
 
+
 class Env(ABC):
     """
     Class for building 2-d workspace of robots.
@@ -53,6 +54,7 @@ class Grid(Env):
                         Node((0, 1),  None, 1, None), Node((1, 1),   None, sqrt(2), None),
                         Node((1, 0),  None, 1, None), Node((1, -1),  None, sqrt(2), None),
                         Node((0, -1), None, 1, None), Node((-1, -1), None, sqrt(2), None)]
+
         # obstacles
         self.obstacles = None
         self.obstacles_tree = None
