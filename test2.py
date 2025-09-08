@@ -1,13 +1,14 @@
 ﻿# 3D Pathfinding Example with your updated files
-# import python_motion_planning as pmp
+#import python_motion_planning as pmp
 import numpy as np
 import matplotlib.pyplot as plt
+#import environment3D
 from src.Pathfinding3D.environment3D.env import Grid, Env
 from src.Pathfinding3D.global_planner.a_star import AStar
 from src.Pathfinding3D.global_planner.dijkstra import Dijkstra
 from src.Pathfinding3D.utils.plot.plot import Plot
 from src.Pathfinding3D.utils.agent.agent import Robot
-from environment3D.node import Node
+from src.Pathfinding3D.environment3D.node import Node
 from src.Pathfinding3D.utils.planner.planner import Planner
 
 # Create environment with custom obstacles
