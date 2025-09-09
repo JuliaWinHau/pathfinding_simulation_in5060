@@ -46,52 +46,65 @@ def add_corner_wall(obstacles, env, z0=0, z1=None, thickness=1):
             for z in range(z0, z1 + 1):  # vertical extent from z0 to z1
                 obstacles.add((x, y, z))
 
+def add_floor(obstacles, env, z0=0, thickness=1):
+    """
+    Add a horizontal obstacle floor spanning the full X and Y dimensions.
+    - z0: starting height of the floor
+    - thickness: how many layers thick the floor should be
+    """
+    nx, ny, nz = env.x_range, env.y_range, env.z_range
 
+    # floor spans all x and y, but only thickness layers in z
+    for x in range(nx):
+        for y in range(ny):
+            for z in range(z0, min(z0 + thickness, nz)):
+                obstacles.add((x, y, z))
 
 # Build corner wall
-add_corner_wall(obstacles, env, z0=0, z1=env.z_range - 1, thickness=1)
+# add_corner_wall(obstacles, env, z0=0, z1=env.z_range - 1, thickness=1)
+add_floor(obstacles, env, z0=0, thickness=1)
 
 # adding random buildings obstacles
-def generate_obstacles(amount=30, x_max=25, y_max=20, z_max=12):
+def generate_obstacles(obstacle_amount=20, x_max=25, y_max=20, z_max=12):
     random.seed(5)
-    for _ in range(amount):
+    for _ in range(obstacle_amount):
         x = random.randrange(x_max)
         y = random.randrange(y_max)
         height = random.randrange(5, z_max)
         for z in range(height):
             obstacles.add((x, y, z))
     
-generate_obstacles()
+generate_obstacles(obstacle_amount=100)
 
 # Update env with new obstacles
 env.update(obstacles)
 
 #### Test different algorithms ####
 # A* algorithm
-planner = AStar(start=(1, 1, 0), goal=(18, 17, 10), env=env)
+planner = AStar(start=(1, 1, 11), goal=(18, 17, 1), env=env)
 cost, path, expand = planner.plan()
-planner.plot.ax.view_init(elev=30, azim=80) # rotating plot angle
+planner.plot.ax.view_init(elev=50, azim=80) # rotating plot angle
 planner.plot.animation(path, str(planner), cost, expand=None)
 
 # Dijkstra algorithm
 planner2 = Dijkstra(start=(1, 1, 0), goal=(18, 17, 10), env=env)
 cost2, path2, expand2 = planner2.plan()
-planner2.plot.ax.view_init(elev=30, azim=80) # rotating plot angle
+planner2.plot.ax.view_init(elev=50, azim=80) # rotating plot angle
 planner2.plot.animation(path2, str(planner2), cost2, expand=None)
 
 # JPS algorithm
 planner3 = JPS(start=(1, 1, 0), goal=(18, 17, 10), env=env)
 cost3, path3, exapnd3 = planner3.plan()
-planner3.plot.ax.view_init(elev=30, azim=80)
+planner3.plot.ax.view_init(elev=50, azim=80)
 planner3.plot.animation(path3, str(planner3), cost3, expand=None)
 
 # Lazy Theta* algorithm
 planner4 = LazyThetaStar(start=(1, 1, 0), goal=(18, 17, 10), env=env)
 cost4, path4, exapnd4 = planner4.plan()
-planner4.plot.ax.view_init(elev=30, azim=80)
+planner4.plot.ax.view_init(elev=50, azim=80)
 planner4.plot.animation(path4, str(planner4), cost4, expand=None)
 
 planner5 = GBFS(start=(1, 1, 0), goal=(18, 17, 10), env=env)
 cost5, path5, exapnd5 = planner5.plan()
-planner5.plot.ax.view_init(elev=30, azim=80)
+planner5.plot.ax.view_init(elev=50, azim=80)
 planner5.plot.animation(path5, str(planner5), cost5, expand=None)

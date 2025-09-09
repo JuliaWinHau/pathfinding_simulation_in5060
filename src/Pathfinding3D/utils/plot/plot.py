@@ -54,8 +54,8 @@ class Plot:
         '''
         # plt.plot(self.start.x, self.start.y, self.start.z, marker="s", color="#ff0000")
         # plt.plot(self.goal.x, self.goal.y, self.goal.z, marker="s", color="#1155cc")
-        self.ax.scatter(self.start.x, self.start.y, self.start.z, marker="s", color="#ff0000", label="start")
-        self.ax.scatter(self.goal.x, self.goal.y, self.goal.z, marker="s", color="#1155cc", label="goal")
+        self.ax.scatter(self.start.x, self.start.y, self.start.z, marker="s", color="#1155cc", label="start")
+        self.ax.scatter(self.goal.x, self.goal.y, self.goal.z, marker="s", color="#ff0000", label="goal")
 
         # creating voxel obstacles
         if isinstance(self.env, Grid):
@@ -75,7 +75,7 @@ class Plot:
 
             self.ax.voxels(x_edges, y_edges, z_edges, occ,
                            facecolors=(0.3, 0.3, 0.3, 0.35),
-                           edgecolor='k', linewidth=0.3)
+                           edgecolor='k', linewidth=0.1)
 
             # these two set_xlims and set_xticks is to remove the gap between the boundary voxels wall and the grid
             # match axes limits to the voxel edges
@@ -177,7 +177,7 @@ class Plot:
 
         plt.pause(0.01)
 
-    def plotPath(self, path: list, path_color: str='#fc03a5', path_style: str="-") -> None:
+    def plotPath(self, path: list, path_color: str='#008000', path_style: str="-") -> None:
         '''
         Plot path in global planning.
 
