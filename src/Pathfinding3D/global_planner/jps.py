@@ -103,7 +103,7 @@ class JPS(AStar):
         new_node.parent = node.current
         new_node.h = self.h(new_node, self.goal)
 
-        # out of bounds -> stop this ray (prevents infinite recursion if no boundary walls)
+        # detect out of bounds given we only have two obstacle walls. (prevents infinite recursion if no boundary walls)
         if not (0 <= new_node.x < self.env.x_range and
                 0 <= new_node.y < self.env.y_range and
                 0 <= new_node.z < self.env.z_range):
