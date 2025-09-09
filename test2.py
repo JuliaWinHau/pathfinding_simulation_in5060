@@ -18,6 +18,7 @@ from src.Pathfinding3D.global_planner.gbfs import GBFS
 
 # Create environment with custom obstacles
 env = Grid(25, 20, 12)
+obstacles_floor = set()
 obstacles = set()
 
 def add_corner_wall(obstacles, env, z0=0, z1=None, thickness=1):
@@ -46,7 +47,7 @@ def add_corner_wall(obstacles, env, z0=0, z1=None, thickness=1):
             for z in range(z0, z1 + 1):  # vertical extent from z0 to z1
                 obstacles.add((x, y, z))
 
-def add_floor(obstacles, env, z0=0, thickness=1):
+def add_floor(obstacles_floor, env, z0=0, thickness=1):
     """
     Add a horizontal obstacle floor spanning the full X and Y dimensions.
     - z0: starting height of the floor
@@ -58,12 +59,11 @@ def add_floor(obstacles, env, z0=0, thickness=1):
     for x in range(nx):
         for y in range(ny):
             for z in range(z0, min(z0 + thickness, nz)):
-                obstacles.add((x, y, z))
+                obstacles_floor.add((x, y, z))
 
 # Build corner wall
 # add_corner_wall(obstacles, env, z0=0, z1=env.z_range - 1, thickness=1)
 add_floor(obstacles, env, z0=0, thickness=1)
-env.update(obstacles)
 
 # adding random buildings obstacles
 random.seed(5)
@@ -89,6 +89,7 @@ generate_obstacle_gridlike()
 
 # Update env with new obstacles
 env.update(obstacles)
+env.update(obstacles_floor)
 
 #### Test different algorithms ####
 start_position = (7, 7, 12)

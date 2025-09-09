@@ -23,11 +23,11 @@ class Plot:
         # creation of the 3D figure
         self.ax = self.fig.add_subplot(111, projection='3d')
 
-    def animation(self, path: list, name: str, cost: float = None, expand: list = None, history_pose: list = None,
+    def animation(self, obstacle_color, path: list, name: str, cost: float = None, expand: list = None, history_pose: list = None,
                   predict_path: list = None, lookahead_pts: list = None, cost_curve: list = None,
                   ellipse: np.ndarray = None) -> None:
         name = name + "\ncost: " + str(cost) if cost else name
-        self.plotEnv(name)
+        self.plotEnv(name, obstacle_color)
         if expand is not None:
             self.plotExpand(expand)
         if history_pose is not None:
@@ -44,7 +44,7 @@ class Plot:
 
         plt.show()
 
-    def plotEnv(self, name: str) -> None:
+    def plotEnv(self, name: str, obstacle_sets_colors: list) -> None:
         '''
         Plot environment with static obstacles.
 
@@ -74,7 +74,7 @@ class Plot:
             z_edges = (np.arange(nz + 1) - 0.5)[None, None, :]  # (1,1,nz+1)
 
             self.ax.voxels(x_edges, y_edges, z_edges, occ,
-                           facecolors=(0.3, 0.3, 0.3, 0.35),
+                           facecolors=(0.7, 0.7, 0.7, 0.2),
                            edgecolor='k', linewidth=0.1)
 
             # these two set_xlims and set_xticks is to remove the gap between the boundary voxels wall and the grid
