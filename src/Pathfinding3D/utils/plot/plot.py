@@ -6,6 +6,8 @@ import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
+from matplotlib.ticker import MaxNLocator
+
 from src.Pathfinding3D.environment3D.env import Env, Grid, Map
 from src.Pathfinding3D.environment3D.node import Node
 
@@ -59,13 +61,42 @@ class Plot:
             # number of cells nx, ny, nz in the grid along x, y, z axes.
             nx, ny, nz = self.env.x_range, self.env.y_range, self.env.z_range
 
-            # build boolean occupancy grid
+            # occupancy
             occ = np.zeros((nx, ny, nz), dtype=bool)
             for x, y, z in self.env.obstacles:
-                if x in range(nx) and y in range(ny) and z in range(nz):
-                    occ[x, y, z] = True # mark as occupied
-                # create voxels (cubes)
-                self.ax.voxels(occ, facecolors="gray", edgecolor='black')
+                if 0 <= x < nx and 0 <= y < ny and 0 <= z < nz:
+                    occ[x, y, z] = True
+
+            # edge-aligned coords (broadcastable)
+            x_edges = (np.arange(nx + 1) - 0.5)[:, None, None]  # (nx+1,1,1)
+            y_edges = (np.arange(ny + 1) - 0.5)[None, :, None]  # (1,ny+1,1)
+            z_edges = (np.arange(nz + 1) - 0.5)[None, None, :]  # (1,1,nz+1)
+
+            self.ax.voxels(x_edges, y_edges, z_edges, occ,
+                           facecolors=(0.3, 0.3, 0.3, 0.35),
+                           edgecolor='k', linewidth=0.3)
+
+            # these two set_xlims and set_xticks is to remove the gap between the boundary voxels wall and the grid
+            # match axes limits to the voxel edges
+            self.ax.set_xlim(-0.5, nx - 0.5)
+            self.ax.set_ylim(-0.5, ny - 0.5)
+            self.ax.set_zlim(-0.5, nz - 0.5)
+
+            # tidy ticks to land on voxel edges
+            self.ax.set_xticks(np.arange(0, nx + 1, 1))
+            self.ax.set_yticks(np.arange(0, ny + 1, 1))
+            self.ax.set_zticks(np.arange(0, nz + 1, 1))
+
+            # fewer integer-aligned ticks
+            self.ax.xaxis.set_major_locator(MaxNLocator(nbins=8, integer=True, prune='both'))
+            self.ax.yaxis.set_major_locator(MaxNLocator(nbins=8, integer=True, prune='both'))
+            self.ax.zaxis.set_major_locator(MaxNLocator(nbins=8, integer=True, prune='both'))
+
+            # smaller labels with a bit of spacing
+            self.ax.tick_params(labelsize=10, pad=3)
+
+            # true equal aspect in 3D (instead of plt.axis("equal"))
+            self.ax.set_box_aspect((nx, ny, nz))
 
         if isinstance(self.env, Map):
             ax = self.fig.add_subplot()
@@ -101,7 +132,6 @@ class Plot:
         self.ax.set_zlabel('Z')
         self.ax.legend(loc="best")
         plt.title(name)
-        plt.axis("equal")
 
 
     def plotExpand(self, expand: list) -> None:
