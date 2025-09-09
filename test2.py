@@ -82,7 +82,7 @@ def generate_obstacle_gridlike(obstacle_amount=20, x_max=25, y_max=20, z_max=12)
                 for i in range(4):
                     for j in range(3):
                         obstacles.add((x + i, y + j, z))
-                
+
 
 # generate_obstacles(obstacle_amount=30)
 generate_obstacle_gridlike()
@@ -91,8 +91,8 @@ generate_obstacle_gridlike()
 env.update(obstacles)
 
 #### Test different algorithms ####
-start_position = (7, 7, 12)
-goal_position = (18, 17, 3)
+start_position = (7, 7, 2)
+goal_position = (18, 17, 2)
 costs = []
 
 def simulate_algorithm(algorithm, elev=60, azim=80):
@@ -118,6 +118,3 @@ for i, cost in enumerate(costs):
     plt.text(i, cost + 0.5, str(cost), ha='center', va='bottom')
 
 plt.show()
-
-
-

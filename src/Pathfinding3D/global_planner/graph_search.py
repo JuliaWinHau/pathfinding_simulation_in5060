@@ -153,4 +153,3 @@ class GraphSearcher(Planner):
             #if s1 in self.obstacles or s2 in self.obstacles:
                 #return True
         #return False
-
