@@ -87,30 +87,30 @@ env.update(obstacles)
 
 #### Test different algorithms ####
 # A* algorithm
-planner = AStar(start=(2, 2, 7), goal=(18, 17, 10), env=env)
+planner = AStar(start=(1, 1, 0), goal=(18, 17, 10), env=env)
 cost, path, expand = planner.plan()
 planner.plot.ax.view_init(elev=30, azim=80) # rotating plot angle
 planner.plot.animation(path, str(planner), cost, expand=None)
 
 # Dijkstra algorithm
-planner2 = Dijkstra(start=(2, 2, 7), goal=(18, 17, 10), env=env)
+planner2 = Dijkstra(start=(1, 1, 0), goal=(18, 17, 10), env=env)
 cost2, path2, expand2 = planner2.plan()
 planner2.plot.ax.view_init(elev=30, azim=80) # rotating plot angle
 planner2.plot.animation(path2, str(planner2), cost2, expand=None)
 
 # JPS algorithm
-planner3 = JPS(start=(2, 2, 7), goal=(18, 17, 10), env=env)
+planner3 = JPS(start=(1, 1, 0), goal=(18, 17, 10), env=env)
 cost3, path3, exapnd3 = planner3.plan()
 planner3.plot.ax.view_init(elev=30, azim=80)
 planner3.plot.animation(path3, str(planner3), cost3, expand=None)
 
 # Lazy Theta* algorithm
-planner4 = LazyThetaStar(start=(2, 2, 7), goal=(18, 17, 10), env=env)
+planner4 = LazyThetaStar(start=(1, 1, 0), goal=(18, 17, 10), env=env)
 cost4, path4, exapnd4 = planner4.plan()
 planner4.plot.ax.view_init(elev=30, azim=80)
 planner4.plot.animation(path4, str(planner4), cost4, expand=None)
 
-planner5 = GBFS(start=(2, 2, 7), goal=(18, 17, 10), env=env)
+planner5 = GBFS(start=(1, 1, 0), goal=(18, 17, 10), env=env)
 cost5, path5, exapnd5 = planner5.plan()
 planner5.plot.ax.view_init(elev=30, azim=80)
 planner5.plot.animation(path5, str(planner5), cost5, expand=None)

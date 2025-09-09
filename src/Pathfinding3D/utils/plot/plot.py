@@ -4,7 +4,7 @@ Plot tools 2D
 """
 import numpy as np
 import matplotlib
-# matplotlib.use('TkAgg')
+matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from matplotlib.ticker import MaxNLocator
@@ -177,7 +177,7 @@ class Plot:
 
         plt.pause(0.01)
 
-    def plotPath(self, path: list, path_color: str='#13ae00', path_style: str="-") -> None:
+    def plotPath(self, path: list, path_color: str='#fc03a5', path_style: str="-") -> None:
         '''
         Plot path in global planning.
 
@@ -191,7 +191,7 @@ class Plot:
         #plt.plot(path_x, path_y, path_z, path_style, linewidth='2', color=path_color)
         #plt.plot(self.start.x, self.start.y, self.start.z, marker="s", color="#ff0000")
         #plt.plot(self.goal.x, self.goal.y, self.goal.z, marker="s", color="#1155cc")
-        self.ax.plot(path_x, path_y, path_z, path_style, linewidth=2, color=path_color)
+        self.ax.plot(path_x, path_y, path_z, path_style, linewidth=5, color=path_color)
         self.ax.plot(self.start.x, self.start.y, self.start.z, marker="s", color="#ff0000")
         self.ax.plot(self.goal.x, self.goal.y, self.goal.z, marker="s", color="#1155cc")
 
