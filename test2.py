@@ -65,46 +65,57 @@ def add_floor(obstacles, env, z0=0, thickness=1):
 add_floor(obstacles, env, z0=0, thickness=1)
 
 # adding random buildings obstacles
+random.seed(5)
 def generate_obstacles(obstacle_amount=20, x_max=25, y_max=20, z_max=12):
-    random.seed(5)
     for _ in range(obstacle_amount):
         x = random.randrange(x_max)
         y = random.randrange(y_max)
         height = random.randrange(5, z_max)
         for z in range(height):
             obstacles.add((x, y, z))
-    
-generate_obstacles(obstacle_amount=100)
+
+def generate_obstacle_gridlike(obstacle_amount=20, x_max=25, y_max=20, z_max=12):
+    for x in range(0, 25, 7):
+        for y in range(0, 20, 4):
+            for z in range(10):
+                for i in range(4):                    
+                    obstacles.add((x + i, y, z))
+                
+
+# generate_obstacles(obstacle_amount=100)
+generate_obstacle_gridlike()
 
 # Update env with new obstacles
 env.update(obstacles)
 
 #### Test different algorithms ####
+start_position = (1, 1, 11)
+goal_position = (18, 20, 1)
 # A* algorithm
-planner = AStar(start=(1, 1, 11), goal=(18, 17, 1), env=env)
+planner = AStar(start_position, goal=goal_position, env=env)
 cost, path, expand = planner.plan()
 planner.plot.ax.view_init(elev=50, azim=80) # rotating plot angle
 planner.plot.animation(path, str(planner), cost, expand=None)
 
 # Dijkstra algorithm
-planner2 = Dijkstra(start=(1, 1, 0), goal=(18, 17, 10), env=env)
+planner2 = Dijkstra(start_position, goal=(goal_position), env=env)
 cost2, path2, expand2 = planner2.plan()
 planner2.plot.ax.view_init(elev=50, azim=80) # rotating plot angle
 planner2.plot.animation(path2, str(planner2), cost2, expand=None)
 
 # JPS algorithm
-planner3 = JPS(start=(1, 1, 0), goal=(18, 17, 10), env=env)
+planner3 = JPS(start_position, goal=(goal_position), env=env)
 cost3, path3, exapnd3 = planner3.plan()
 planner3.plot.ax.view_init(elev=50, azim=80)
 planner3.plot.animation(path3, str(planner3), cost3, expand=None)
 
 # Lazy Theta* algorithm
-planner4 = LazyThetaStar(start=(1, 1, 0), goal=(18, 17, 10), env=env)
+planner4 = LazyThetaStar(start_position, goal=(goal_position), env=env)
 cost4, path4, exapnd4 = planner4.plan()
 planner4.plot.ax.view_init(elev=50, azim=80)
 planner4.plot.animation(path4, str(planner4), cost4, expand=None)
 
-planner5 = GBFS(start=(1, 1, 0), goal=(18, 17, 10), env=env)
+planner5 = GBFS(start_position, goal=(goal_position), env=env)
 cost5, path5, exapnd5 = planner5.plan()
 planner5.plot.ax.view_init(elev=50, azim=80)
 planner5.plot.animation(path5, str(planner5), cost5, expand=None)
