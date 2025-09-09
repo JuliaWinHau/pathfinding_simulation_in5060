@@ -63,6 +63,7 @@ def add_floor(obstacles, env, z0=0, thickness=1):
 # Build corner wall
 # add_corner_wall(obstacles, env, z0=0, z1=env.z_range - 1, thickness=1)
 add_floor(obstacles, env, z0=0, thickness=1)
+env.update(obstacles)
 
 # adding random buildings obstacles
 random.seed(5)
@@ -78,35 +79,36 @@ def generate_obstacle_gridlike(obstacle_amount=20, x_max=25, y_max=20, z_max=12)
     for x in range(0, 25, 7):
         for y in range(0, 20, 4):
             for z in range(10):
-                for i in range(4):                    
-                    obstacles.add((x + i, y, z))
+                for i in range(4):
+                    for j in range(3):
+                        obstacles.add((x + i, y + j, z))
                 
 
-# generate_obstacles(obstacle_amount=100)
+# generate_obstacles(obstacle_amount=30)
 generate_obstacle_gridlike()
 
 # Update env with new obstacles
 env.update(obstacles)
 
 #### Test different algorithms ####
-start_position = (1, 1, 11)
-goal_position = (18, 20, 1)
+start_position = (7, 7, 12)
+goal_position = (18, 17, 3)
 costs = []
 
-def simulate_algorithm(algorithm):
+def simulate_algorithm(algorithm, elev=60, azim=80):
     planner = algorithm
     cost, path, expand = planner.plan()
-    planner.plot.ax.view_init(elev=50, azim=80) # rotating plot angle
+    planner.plot.ax.view_init(elev, azim) # rotating plot angle
     planner.plot.animation(path, str(planner), cost, expand=None)
     costs.append(cost)
 
-simulate_algorithm(AStar(start_position, goal=goal_position, env=env))
-# simulate_algorithm(Dijkstra(start_position, goal=(goal_position), env=env))
+simulate_algorithm(AStar(start_position, goal=goal_position, env=env), elev=50, azim=80)
+simulate_algorithm(Dijkstra(start_position, goal=(goal_position), env=env))
 # simulate_algorithm(JPS(start_position, goal=(goal_position), env=env))
 simulate_algorithm(LazyThetaStar(start_position, goal=(goal_position), env=env))
 simulate_algorithm(GBFS(start_position, goal=(goal_position), env=env))
 
-algorithms = ["A*", "LazyThetaStar", "GBFS"]
+algorithms = ["A*", "Dijkstra", "LazyThetaStar", "GBFS"]
 plt.bar(algorithms, costs, color="skyblue", edgecolor="black")
 plt.ylabel("Cost")
 plt.title("Cost Comparison")
