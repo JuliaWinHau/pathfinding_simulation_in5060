@@ -2,6 +2,7 @@
 #import python_motion_planning as pmp
 import numpy as np
 import matplotlib.pyplot as plt
+import random
 from fontTools.misc.py23 import xrange
 
 from src.Pathfinding3D.environment3D.env import Grid, Env
@@ -51,36 +52,16 @@ def add_corner_wall(obstacles, env, z0=0, z1=None, thickness=1):
 add_corner_wall(obstacles, env, z0=0, z1=env.z_range - 1, thickness=1)
 
 # adding random buildings obstacles
-for z in range(10):
-    obstacles.add((18, 17, z))
-
-for z in range(9):
-    obstacles.add((4, 4, z))
-
-for z in range(10):
-    obstacles.add((9, 8, z))
-
-for z in range(10):
-    obstacles.add((15, 10, z))
-
-for z in range(10):
-    obstacles.add((18, 4, z))
-
-for z in range(10):
-    obstacles.add((5, 16, z))
-
-for z in range(10):
-    obstacles.add((24, 12, z))
-
-for z in range(10):
-    obstacles.add((5, 16, z))
-
-for z in range(10):
-    obstacles.add((12, 16, z))
-
-for z in range(10):
-    obstacles.add((24, 18, z))
-
+def generate_obstacles(amount=30, x_max=25, y_max=20, z_max=12):
+    random.seed(5)
+    for _ in range(amount):
+        x = random.randrange(x_max)
+        y = random.randrange(y_max)
+        height = random.randrange(5, z_max)
+        for z in range(height):
+            obstacles.add((x, y, z))
+    
+generate_obstacles()
 
 # Update env with new obstacles
 env.update(obstacles)
