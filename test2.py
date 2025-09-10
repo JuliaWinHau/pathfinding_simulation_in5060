@@ -94,12 +94,21 @@ env.update(obstacles)
 start_position = (7, 7, 2)
 goal_position = (18, 17, 2)
 costs = []
+heights = []
 
 def simulate_algorithm(algorithm, elev=60, azim=80):
     planner = algorithm
     cost, path, expand = planner.plan()
     planner.plot.ax.view_init(elev, azim) # rotating plot angle
     planner.plot.animation(path, str(planner), cost, expand=None)
+    high = 0
+    low = 0
+    for node in expand:
+        if node.z < 4:
+            high += 1
+        else:
+            low += 1
+    heights.append(high/(high+low))
     costs.append(cost)
 
 simulate_algorithm(AStar(start_position, goal=goal_position, env=env), elev=50, azim=80)
@@ -115,6 +124,16 @@ plt.title("Cost Comparison")
 
 # Add labels above bars
 for i, cost in enumerate(costs):
-    plt.text(i, cost + 0.5, str(cost), ha='center', va='bottom')
+    plt.text(i, cost, str(round(cost, 2)), ha='center', va='bottom')
+
+plt.show()
+
+plt.bar(algorithms, heights, color="skyblue", edgecolor="black")
+plt.ylabel("Proportion of path above z=3")
+plt.title("Name of graph")
+
+# Add labels above bars
+for i, height in enumerate(heights):
+    plt.text(i, height, str(round(height, 2)), ha='center', va='bottom')
 
 plt.show()
