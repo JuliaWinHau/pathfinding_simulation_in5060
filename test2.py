@@ -17,7 +17,8 @@ from src.Pathfinding3D.global_planner.gbfs import GBFS
 # from src.Pathfinding3D.utils.planner.planner import Planner
 
 # Create environment with custom obstacles
-env = Grid(25, 20, 12)
+gridx, gridy, gridz = 70, 20, 12
+env = Grid(gridx, gridy, gridz)
 obstacles = set()
 
 def add_corner_wall(obstacles, env, z0=0, z1=None, thickness=1):
@@ -62,37 +63,47 @@ def add_floor(obstacles, env, z0=0, thickness=1):
 
 # Build corner wall
 # add_corner_wall(obstacles, env, z0=0, z1=env.z_range - 1, thickness=1)
-add_floor(obstacles, env, z0=0, thickness=1)
-env.update(obstacles)
+# add_floor(obstacles, env, z0=0, thickness=1)
+# env.update(obstacles)
 
-# adding random buildings obstacles
+# obstacle map selection
+start_position = (7, 7, 12)
+goal_position = (18, 17, 3)
 random.seed(5)
-def generate_obstacles(obstacle_amount=20, x_max=25, y_max=20, z_max=12):
+
+def generate_obstacles(obstacle_amount=20, x_max=gridx, y_max=gridy, z_max=gridz, set_start_position=start_position, set_goal_position=goal_position):
     for _ in range(obstacle_amount):
         x = random.randrange(x_max)
         y = random.randrange(y_max)
         height = random.randrange(5, z_max)
         for z in range(height):
             obstacles.add((x, y, z))
+    return set_start_position, set_goal_position
 
-def generate_obstacle_gridlike(obstacle_amount=20, x_max=25, y_max=20, z_max=12):
-    for x in range(0, 25, 7):
-        for y in range(0, 20, 4):
-            for z in range(10):
+def generate_obstacle_gridmap(x_max=gridx, y_max=gridy, z_max=gridz, set_start_position=start_position, set_goal_position=goal_position):
+    for x in range(0, x_max, 7):
+        for y in range(0, y_max, 4):
+            for z in range(z_max):
                 for i in range(4):
                     for j in range(3):
                         obstacles.add((x + i, y + j, z))
+    return set_start_position, set_goal_position
                 
 
 # generate_obstacles(obstacle_amount=30)
-generate_obstacle_gridlike()
+start_position, goal_position = generate_obstacle_gridmap(x_max=300, set_goal_position=(63, 17, 3))
+
+# Update env with new obstacles
+# env.update(obstacles)
+
+# start_position, goal_position = generate_obstacles(obstacle_amount=30)
+# start_position, goal_position = generate_obstacle_gridmap(set_goal_position=(59, 17, 3))
 
 # Update env with new obstacles
 env.update(obstacles)
 
 #### Test different algorithms ####
-start_position = (7, 7, 12)
-goal_position = (18, 17, 3)
+
 costs = []
 
 def simulate_algorithm(algorithm, elev=60, azim=80):
@@ -103,16 +114,10 @@ def simulate_algorithm(algorithm, elev=60, azim=80):
     costs.append(cost)
 
 simulate_algorithm(AStar(start_position, goal=goal_position, env=env), elev=50, azim=80)
-simulate_algorithm(Dijkstra(start_position, goal=(goal_position), env=env))
-# simulate_algorithm(JPS(start_position, goal=(goal_position), env=env))
-simulate_algorithm(LazyThetaStar(start_position, goal=(goal_position), env=env))
-simulate_algorithm(GBFS(start_position, goal=(goal_position), env=env))
-
-algorithms = ["A*", "Dijkstra", "LazyThetaStar", "GBFS"]
-plt.bar(algorithms, costs, color="skyblue", edgecolor="black")
-plt.ylabel("Cost")
-plt.title("Cost Comparison")
-
+simulate_algorithm(Dijkstra(start_position, goal=goal_position, env=env))
+# simulate_algorithm(JPS(start_position, goal=goal_position, env=env))
+simulate_algorithm(LazyThetaStar(start_position, goal=goal_position, env=env))
+simulate_algorithm(GBFS(start_position, goal=goal_position, env=env))
 # Add labels above bars
 for i, cost in enumerate(costs):
     plt.text(i, cost + 0.5, str(cost), ha='center', va='bottom')
