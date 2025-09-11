@@ -100,27 +100,32 @@ def generate_obstacle_gridmap(x_max=gridx, y_max=gridy, z_max=gridz,
                 
 # Generate obstacles and get start/goal positions
 
+# --- Map 1
 # Block map, skyscraper style
 # start_position, goal_position = generate_obstacle_gridmap(
 #     x_max=gridx, y_max=gridy, z_max=gridz, set_goal_position=(62, 18, 2)
 # )
 
+# --- Map 2
 # Block map, suburban style, smaller blocks
 # start_position, goal_position = generate_obstacle_gridmap(
 #     x_max=gridx, y_max=gridy, z_max=int(gridz / 3), block_size_xi=2, block_size_xy=2,
 #     set_goal_position=(62, 18, 2), x_step=4, y_step=3
 # )
 
+# --- Map 3
 # Random scattered obstacles, all heights, sparse
-# start_position, goal_position = generate_obstacles(obstacle_amount=200, x_max=gridx,
-#                                                    y_max=gridy, z_max=gridz,
-#                                                    set_goal_position=(62, 18, 2))
+start_position, goal_position = generate_obstacles(obstacle_amount=50, x_max=gridx,
+                                                   y_max=gridy, z_max=gridz,
+                                                   set_goal_position=(62, 18, 2))
 
+# --- Map 4
 # Random scattered obstacles, limited heights, very dense
-start_position, goal_position = generate_obstacles(obstacle_amount=400, x_max=gridx,
-                                                    y_max=gridy, z_max=int(gridz/2),
-                                                    set_goal_position=(62, 18, 2))
+# start_position, goal_position = generate_obstacles(obstacle_amount=300, x_max=gridx,
+#                                                     y_max=gridy, z_max=int(gridz/2),
+#                                                     set_goal_position=(62, 18, 2))
 
+# --- Map 5
 # Grid-like small blocks
 # Create environment with custom obstacles, smaller girdx
 # gridx, gridy, gridz = 25, 20, 12
