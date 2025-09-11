@@ -71,6 +71,7 @@ start_position = (7, 7, 12)
 goal_position = (18, 17, 3)
 random.seed(5)
 
+# Random scattered obstacles
 def generate_obstacles(obstacle_amount=20, x_max=gridx, y_max=gridy, z_max=gridz, set_start_position=start_position, set_goal_position=goal_position):
     for _ in range(obstacle_amount):
         x = random.randrange(x_max)
@@ -80,20 +81,47 @@ def generate_obstacles(obstacle_amount=20, x_max=gridx, y_max=gridy, z_max=gridz
             obstacles.add((x, y, z))
     return set_start_position, set_goal_position
 
-def generate_obstacle_gridmap(x_max=gridx, y_max=gridy, z_max=gridz, set_start_position=start_position, set_goal_position=goal_position):
-    for x in range(0, x_max, 7):
-        for y in range(0, y_max, 4):
+# Block map
+def generate_obstacle_gridmap(x_max=gridx, y_max=gridy, z_max=gridz, 
+                              set_start_position=start_position, 
+                              set_goal_position=goal_position,
+                              block_size_xi=4, block_size_xy=3,
+                              x_step=7, y_step=4):
+    
+    for x in range(0, x_max, x_step):
+        for y in range(0, y_max, y_step):
             block_height = random.randint(int(z_max * 0.5), z_max)
             for z in range(block_height):
-                for i in range(4):
-                    for j in range(3):
+                for i in range(block_size_xi):
+                    for j in range(block_size_xy):
                         obstacles.add((x + i, y + j, z))
+
     return set_start_position, set_goal_position
                 
 # Generate obstacles and get start/goal positions
-start_position, goal_position = generate_obstacle_gridmap(
-    x_max=gridx, y_max=gridy, z_max=gridz, set_goal_position=(62, 18, 2)
-)
+
+# Block map, skyscraper style
+# start_position, goal_position = generate_obstacle_gridmap(
+#     x_max=gridx, y_max=gridy, z_max=gridz, set_goal_position=(62, 18, 2)
+# )
+
+# Block map, suburban style, smaller blocks
+# start_position, goal_position = generate_obstacle_gridmap(
+#     x_max=gridx, y_max=gridy, z_max=int(gridz / 3), block_size_xi=2, block_size_xy=2,
+#     set_goal_position=(62, 18, 2), x_step=4, y_step=3
+# )
+
+# Random scattered obstacles, all heights, sparse
+# start_position, goal_position = generate_obstacles(obstacle_amount=200, x_max=gridx, 
+#                                                    y_max=gridy, z_max=gridz, 
+#                                                    set_goal_position=(62, 18, 2))
+
+# Random scattered obstacles, limited heights, very dense
+start_position, goal_position = generate_obstacles(obstacle_amount=400, x_max=gridx, 
+                                                   y_max=gridy, z_max=int(gridz/2), 
+                                                   set_goal_position=(62, 18, 2))
+
+
 print("Grid size:", gridx, gridy, gridz)
 print("Start position:", start_position)
 print("Goal position:", goal_position)
