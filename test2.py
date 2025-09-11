@@ -150,24 +150,46 @@ env.update(obstacles)
 #### Test different algorithms ####
 
 costs = []
+heights = []
 
 def simulate_algorithm(algorithm, elev=60, azim=80):
     planner = algorithm
-    cost, path, expand = planner.plan()
+    cost, path, expand, grounded = planner.plan()
     planner.plot.ax.view_init(elev, azim) # rotating plot angle
     planner.plot.animation(path, str(planner), cost, expand=None)
+    heights.append(grounded)
     costs.append(cost)
 
 simulate_algorithm(AStar(start_position, goal=goal_position, env=env), elev=50, azim=80)
-simulate_algorithm(Dijkstra(start_position, goal=goal_position, env=env))
-# simulate_algorithm(JPS(start_position, goal=goal_position, env=env))
-simulate_algorithm(LazyThetaStar(start_position, goal=goal_position, env=env))
-simulate_algorithm(GBFS(start_position, goal=goal_position, env=env))
+simulate_algorithm(Dijkstra(start_position, goal=(goal_position), env=env))
+# simulate_algorithm(JPS(start_position, goal=(goal_position), env=env))
+simulate_algorithm(LazyThetaStar(start_position, goal=(goal_position), env=env))
+simulate_algorithm(GBFS(start_position, goal=(goal_position), env=env))
+
+#algorithms = ["A*", "Dijkstra", "LazyThetaStar", "GBFS"]
+#plt.bar(algorithms, costs, color="skyblue", edgecolor="black")
+#plt.ylabel("Cost")
+#plt.title("Cost Comparison")
+
 # Add labels above bars
-for i, cost in enumerate(costs):
-    plt.text(i, cost + 0.5, str(cost), ha='center', va='bottom')
+#for i, cost in enumerate(costs):
+#    plt.text(i, cost, str(round(cost, 2)), ha='center', va='bottom')
 
-plt.show()
+#plt.show()
 
+#plt.bar(algorithms, heights, color="skyblue", edgecolor="black")
+#plt.ylabel("Distance at ground level")
+#plt.title("Name of graph")
 
+# Add labels above bars
+#for i, height in enumerate(heights):
+#    plt.text(i, height, str(round(height, 2)), ha='center', va='bottom')
 
+#plt.show()
+
+print("Distances")
+for cost in enumerate(costs):
+    print(cost)
+print("Groundeds")
+for height in enumerate(heights):
+    print(height)

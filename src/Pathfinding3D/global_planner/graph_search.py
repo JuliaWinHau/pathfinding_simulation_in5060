@@ -46,7 +46,10 @@ class GraphSearcher(Planner):
         if self.heuristic_type == "manhattan":
             return abs(goal.x - node.x) + abs(goal.y - node.y) + abs(goal.z - node.z)
         elif self.heuristic_type == "euclidean":
-            return math.hypot(goal.x - node.x, goal.y - node.y, goal.z - node.z)
+            dist = math.hypot(goal.x - node.x, goal.y - node.y, goal.z - node.z)
+            if node.z < 4:
+                dist *= 5 - node.z
+            return dist
 
     def cost(self, node1: Node, node2: Node) -> float:
         """
@@ -153,4 +156,3 @@ class GraphSearcher(Planner):
             #if s1 in self.obstacles or s2 in self.obstacles:
                 #return True
         #return False
-

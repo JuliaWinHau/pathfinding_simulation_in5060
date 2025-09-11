@@ -74,14 +74,14 @@ class LazyThetaStar(ThetaStar):
             # goal found
             if node == self.goal:
                 CLOSED[node.current] = node
-                cost, path = self.extractPath(CLOSED)
-                return cost, path, list(CLOSED.values())
+                cost, path, grounded = self.extractPath(CLOSED)
+                return cost, path, list(CLOSED.values()), grounded
 
-            for node_n in self.getNeighbor(node):                
+            for node_n in self.getNeighbor(node):
                 # exists in CLOSED list
                 if node_n.current in CLOSED:
                     continue
-                
+
                 # path1
                 node_n.parent = node.current
                 node_n.h = self.h(node_n, self.goal)
@@ -96,13 +96,13 @@ class LazyThetaStar(ThetaStar):
                 if node_n == self.goal:
                     heapq.heappush(OPEN, node_n)
                     break
-                
+
                 # update OPEN list
                 heapq.heappush(OPEN, node_n)
-            
+
             CLOSED[node.current] = node
         return [], [], []
-    
+
     def updateVertex(self, node_p: Node, node_c: Node) -> None:
         """
         Update extend node information with current node's parent node.
@@ -114,4 +114,4 @@ class LazyThetaStar(ThetaStar):
         # path 2
         if node_p.g + self.dist(node_c, node_p) <= node_c.g:
             node_c.g = node_p.g + self.dist(node_c, node_p)
-            node_c.parent = node_p.current  
+            node_c.parent = node_p.current

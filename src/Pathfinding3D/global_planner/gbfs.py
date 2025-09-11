@@ -31,7 +31,7 @@ class GBFS(AStar):
     """
     def __init__(self, start: tuple, goal: tuple, env: Grid, heuristic_type: str = "euclidean") -> None:
         super().__init__(start, goal, env, heuristic_type)
-    
+
     def __str__(self) -> str:
         return "Greedy Best First Search(GBFS)"
 
@@ -59,19 +59,19 @@ class GBFS(AStar):
             # goal found
             if node == self.goal:
                 CLOSED[node.current] = node
-                cost, path = self.extractPath(CLOSED)
-                return cost, path, list(CLOSED.values())
+                cost, path, grounded = self.extractPath(CLOSED)
+                return cost, path, list(CLOSED.values()), grounded
 
             for node_n in self.getNeighbor(node):
-             
+
                 # hit the obstacle
                 if node_n.current in self.obstacles:
                     continue
-                
+
                 # exists in CLOSED list
                 if node_n.current in CLOSED:
                     continue
-                
+
                 node_n.parent = node.current
                 node_n.h = self.h(node_n, self.goal)
                 node_n.g = 0
@@ -80,7 +80,7 @@ class GBFS(AStar):
                 if node_n == self.goal:
                     heapq.heappush(OPEN, node_n)
                     break
-                
+
                 # update OPEN set
                 heapq.heappush(OPEN, node_n)
 

@@ -68,14 +68,14 @@ class ThetaStar(AStar):
             # goal found
             if node == self.goal:
                 CLOSED[node.current] = node
-                cost, path = self.extractPath(CLOSED)
-                return cost, path, list(CLOSED.values())
+                cost, path, grounded = self.extractPath(CLOSED)
+                return cost, path, list(CLOSED.values()), grounded
 
-            for node_n in self.getNeighbor(node):                
+            for node_n in self.getNeighbor(node):
                 # exists in CLOSED list
                 if node_n.current in CLOSED:
                     continue
-                
+
                 # path1
                 node_n.parent = node.current
                 node_n.h = self.h(node_n, self.goal)
@@ -89,12 +89,12 @@ class ThetaStar(AStar):
                 if node_n == self.goal:
                     heapq.heappush(OPEN, node_n)
                     break
-                
+
                 # update OPEN list
                 heapq.heappush(OPEN, node_n)
 
             CLOSED[node.current] = node
-        return [], [], []
+        return [], [], [], []
 
     def updateVertex(self, node_p: Node, node_c: Node) -> None:
         """
