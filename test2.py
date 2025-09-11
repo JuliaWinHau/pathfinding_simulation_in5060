@@ -67,8 +67,8 @@ def add_floor(obstacles, env, z0=0, thickness=1):
 # env.update(obstacles)
 
 # obstacle map selection
-start_position = (7, 7, 12)
-goal_position = (18, 17, 3)
+start_position = (7, 7, 1)
+goal_position = (18, 17, 1)
 random.seed(5)
 
 # Random scattered obstacles
@@ -102,39 +102,38 @@ def generate_obstacle_gridmap(x_max=gridx, y_max=gridy, z_max=gridz,
 
 # --- Map 1
 # Block map, skyscraper style
-start_position, goal_position = generate_obstacle_gridmap(
-    x_max=gridx, y_max=gridy, z_max=gridz, set_goal_position=(62, 18, 2)
-)
+# start_position, goal_position = generate_obstacle_gridmap(
+#     x_max=gridx, y_max=gridy, z_max=gridz, set_goal_position=(40, 3, 22)
+# )
 
 # --- Map 2
 # Block map, suburban style, smaller blocks
 # start_position, goal_position = generate_obstacle_gridmap(
 #     x_max=gridx, y_max=gridy, z_max=int(gridz / 3), block_size_xi=2, block_size_xy=2,
-#     set_goal_position=(62, 18, 2), x_step=4, y_step=3
+#     set_goal_position=(40, 3, 22), x_step=4, y_step=3
 # )
 
 # --- Map 3
 # Random scattered obstacles, all heights, sparse
 # start_position, goal_position = generate_obstacles(obstacle_amount=50, x_max=gridx,
 #                                                    y_max=gridy, z_max=gridz,
-#                                                    set_goal_position=(62, 18, 2))
+#                                                    set_goal_position=(40, 3, 22))
 
 # --- Map 4
 # Random scattered obstacles, limited heights, very dense
 # start_position, goal_position = generate_obstacles(obstacle_amount=300, x_max=gridx,
 #                                                     y_max=gridy, z_max=int(gridz/2),
-#                                                     set_goal_position=(62, 18, 2))
+#                                                     set_goal_position=(40, 3, 22))
 
 # --- Map 5
-# Grid-like small blocks
+# Grid-like small blocks, short x axis
 # Create environment with custom obstacles, smaller girdx
-# gridx, gridy, gridz = 25, 20, 12
-# env = Grid(gridx, gridy, gridz)
-# start_position, goal_position = generate_obstacle_gridmap(
-   # x_max=gridx, y_max=gridy, z_max=gridz,
-   # set_start_position=(1, 1, 11),
-   # set_goal_position=(20, 18, 3)
-#)
+gridx, gridy, gridz = 25, 20, 12
+env = Grid(gridx, gridy, gridz)
+start_position, goal_position = generate_obstacle_gridmap(
+   x_max=gridx, y_max=gridy, z_max=gridz,
+   set_goal_position=(18, 3, 12)
+)
 
 # Update env with new obstacles
 env.update(obstacles)
@@ -164,9 +163,15 @@ def simulate_algorithm(algorithm, elev=60, azim=80):
     heights.append(grounded)
     costs.append(cost)
 
+# simulate_algorithm(AStar(start_position, goal=goal_position, env=env), elev=50, azim=80)
+# simulate_algorithm(Dijkstra(start_position, goal=(goal_position), env=env))
+# # simulate_algorithm(JPS(start_position, goal=(goal_position), env=env))
+# simulate_algorithm(LazyThetaStar(start_position, goal=(goal_position), env=env))
+# simulate_algorithm(GBFS(start_position, goal=(goal_position), env=env))
+
+print("New goal position:", goal_position)
 simulate_algorithm(AStar(start_position, goal=goal_position, env=env), elev=50, azim=80)
 simulate_algorithm(Dijkstra(start_position, goal=(goal_position), env=env))
-# simulate_algorithm(JPS(start_position, goal=(goal_position), env=env))
 simulate_algorithm(LazyThetaStar(start_position, goal=(goal_position), env=env))
 simulate_algorithm(GBFS(start_position, goal=(goal_position), env=env))
 

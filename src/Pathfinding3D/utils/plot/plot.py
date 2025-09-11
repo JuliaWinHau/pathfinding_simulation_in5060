@@ -42,7 +42,9 @@ class Plot:
         if ellipse is not None:
             self.plotEllipse(ellipse)
 
-        plt.show()
+        plt.show(block=False)
+        plt.pause(1) 
+        plt.close()
 
     def plotEnv(self, name: str) -> None:
         '''
