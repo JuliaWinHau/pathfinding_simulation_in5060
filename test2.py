@@ -3,7 +3,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import random
-from fontTools.misc.py23 import xrange
 
 from src.Pathfinding3D.environment3D.env import Grid, Env
 from src.Pathfinding3D.global_planner.a_star import AStar
