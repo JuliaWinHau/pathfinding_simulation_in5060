@@ -35,22 +35,22 @@ data = [
         ],
         [ # map 4
             [ # ground-to-ground
-                [], #lengths
-                [] #time on ground
+                [62.116827118419096, 20.535169427003233, 39.2672202345721], #lengths
+                [7.388905057061257, 6.5604779323150675, 8.70674230225704] #time on ground
             ],
             [ # air-to-ground
-                [], #lengths
-                [] #time on ground
+                [44.684104627438174, 64.68410462743819, 42.96983379061812], #lengths
+                [4.242640687119286, 4.242640687119286, 4.5604779323150675] #time on ground
             ]
         ],
         [ # map 5
             [ # ground-to-ground
-                [], #lengths
-                [] #time on ground
+                [17.388905057061258, 14.706742302257041, 19.071067811865476], #lengths
+                [7.388905057061257, 7.706742302257039, 8.071067811865476] #time on ground
             ],
             [ # air-to-ground
-                [], #lengths
-                [] #time on ground
+                [25.656125291633366, 24.384776310850242, 18.192023676495612], #lengths
+                [3.414213562373095, 3.414213562373095, 4.242640687119286] #time on ground
             ]
         ]
     ],
@@ -87,22 +87,22 @@ data = [
         ],
         [ # map 4
             [ # ground-to-ground
-                [], #lengths
-                [] #time on ground
+                [60.459972868926734, 16.58505747976789, 36.342416792648606], #lengths
+                [60.459972868926734, 16.58505747976789, 36.342416792648606] #time on ground
             ],
             [ # air-to-ground
-                [], #lengths
-                [] #time on ground
+                [44.68410462743818, 64.68410462743819, 42.96983379061811], #lengths
+                [5.5604779323150675, 5.242640687119286, 4.242640687119286] #time on ground
             ]
         ],
         [ # map 5
             [ # ground-to-ground
-                [], #lengths
-                [] #time on ground
+                [15.732050807568877, 13.146264369941973, 16.0], #lengths
+                [15.732050807568877, 13.146264369941973, 16.0] #time on ground
             ],
             [ # air-to-ground
-                [], #lengths
-                [] #time on ground
+                [25.65612529163337, 24.384776310850242, 18.192023676495612], #lengths
+                [3.82842712474619, 3.82842712474619, 4.242640687119286] #time on ground
             ]
         ]
     ],
@@ -139,22 +139,22 @@ data = [
         ],
         [ # map 4
             [ # ground-to-ground
-                [], #lengths
-                [] #time on ground
+                [56.99299219015475, 15.432220400206422, 36.536796308744954], #lengths
+                [26.00486614513275, 8.196152422706632, 14.454410447929238] #time on ground
             ],
             [ # air-to-ground
-                [], #lengths
-                [] #time on ground
+                [39.99106525997432, 57.66722476924946, 39.319206502675], #lengths
+                [5.916079783099616, 8.139410298049853, 5.617029500382142] #time on ground
             ]
         ],
         [ # map 5
             [ # ground-to-ground
-                [], #lengths
-                [] #time on ground
+                [16.224972160321826, 12.696440508742775, 16.0], #lengths
+                [16.224972160321826, 12.696440508742775, 16.0] #time on ground
             ],
             [ # air-to-ground
-                [], #lengths
-                [] #time on ground
+                [23.14085239195441, 23.404231431636596, 16.812239960227117], #lengths
+                [3.3166247903554, 3.3166247903554, 4.242640687119285] #time on ground
             ]
         ]
     ],
@@ -191,31 +191,31 @@ data = [
         ],
         [ # map 4
             [ # ground-to-ground
-                [], #lengths
-                [] #time on ground
+                [67.28427124746187, 20.631545744180546, 45.16671517118376], #lengths
+                [6.65685424949238, 6.5604779323150675, 8.610365985079726] #time on ground
             ],
             [ # air-to-ground
-                [], #lengths
-                [] #time on ground
+                [44.68410462743818, 64.68410462743815, 42.96983379061812], #lengths
+                [4.242640687119286, 4.242640687119286, 4.878315177510849] #time on ground
             ]
         ],
         [ # map 5
             [ # ground-to-ground
-                [], #lengths
-                [] #time on ground
+                [18.07106781186548, 15.292528739883945, 19.656854249492383], #lengths
+                [6.65685424949238, 7.292528739883944, 7.65685424949238] #time on ground
             ],
             [ # air-to-ground
-                [], #lengths
-                [] #time on ground
+                [26.970562748477146, 24.384776310850242, 18.192023676495612], #lengths
+                [4.242640687119286, 4.242640687119286, 4.242640687119286] #time on ground
             ]
         ]
     ]
 ] # Add other algorithms as needed
 
 # Extract data
-n = 18 # number of runs
-gn = 9 # number of ground runs
-an = 9 # number of air runs
+n = 30 # number of runs
+gn = 15 # number of ground runs
+an = 15 # number of air runs
 collated_dist = []
 collated_ground = []
 for i, algorithm in enumerate(data):
@@ -234,12 +234,12 @@ algorithms = ["A*", "Dijkstra", "LazyThetaStar", "GBFS"]
 
 plt.boxplot(collated_dist, labels=algorithms)
 plt.title("Overall distance of paths by all algorithms")
-plt.ylabel("Distance")
+plt.ylabel("Distance (m)")
 plt.show()
 
 plt.boxplot(collated_ground, labels=algorithms)
 plt.title("Distance near ground by all algorithms")
-plt.ylabel("Distance")
+plt.ylabel("Distance (m)")
 plt.show()
 
 # TODO remove penguins from code
