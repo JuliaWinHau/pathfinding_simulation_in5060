@@ -84,9 +84,9 @@ class Plot:
             self.ax.set_zlim(-0.5, nz - 0.5)
 
             # tidy ticks to land on voxel edges
-            self.ax.set_xticks(np.arange(0, nx + 1, 1))
-            self.ax.set_yticks(np.arange(0, ny + 1, 1))
-            self.ax.set_zticks(np.arange(0, nz + 1, 1))
+            self.ax.set_xticks(np.arange(1, nx + 1, 1))
+            self.ax.set_yticks(np.arange(1, ny + 1, 1))
+            self.ax.set_zticks(np.arange(1, nz + 1, 1))
 
             # fewer integer-aligned ticks
             self.ax.xaxis.set_major_locator(MaxNLocator(nbins=8, integer=True, prune='both'))
@@ -94,7 +94,7 @@ class Plot:
             self.ax.zaxis.set_major_locator(MaxNLocator(nbins=8, integer=True, prune='both'))
 
             # smaller labels with a bit of spacing
-            self.ax.tick_params(labelsize=10, pad=3)
+            self.ax.tick_params(labelsize=7, pad=3)
 
             # true equal aspect in 3D (instead of plt.axis("equal"))
             self.ax.set_box_aspect((nx, ny, nz))
