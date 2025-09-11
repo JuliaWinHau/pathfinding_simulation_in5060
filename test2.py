@@ -91,24 +91,17 @@ generate_obstacle_gridlike()
 env.update(obstacles)
 
 #### Test different algorithms ####
-start_position = (7, 7, 2)
-goal_position = (18, 17, 2)
+start_position = (7, 7, 1)
+goal_position = (3, 8, 12)
 costs = []
 heights = []
 
 def simulate_algorithm(algorithm, elev=60, azim=80):
     planner = algorithm
-    cost, path, expand = planner.plan()
+    cost, path, expand, grounded = planner.plan()
     planner.plot.ax.view_init(elev, azim) # rotating plot angle
     planner.plot.animation(path, str(planner), cost, expand=None)
-    high = 0
-    low = 0
-    for node in expand:
-        if node.z < 4:
-            high += 1
-        else:
-            low += 1
-    heights.append(high/(high+low))
+    heights.append(grounded)
     costs.append(cost)
 
 simulate_algorithm(AStar(start_position, goal=goal_position, env=env), elev=50, azim=80)
@@ -117,23 +110,30 @@ simulate_algorithm(Dijkstra(start_position, goal=(goal_position), env=env))
 simulate_algorithm(LazyThetaStar(start_position, goal=(goal_position), env=env))
 simulate_algorithm(GBFS(start_position, goal=(goal_position), env=env))
 
-algorithms = ["A*", "Dijkstra", "LazyThetaStar", "GBFS"]
-plt.bar(algorithms, costs, color="skyblue", edgecolor="black")
-plt.ylabel("Cost")
-plt.title("Cost Comparison")
+#algorithms = ["A*", "Dijkstra", "LazyThetaStar", "GBFS"]
+#plt.bar(algorithms, costs, color="skyblue", edgecolor="black")
+#plt.ylabel("Cost")
+#plt.title("Cost Comparison")
 
 # Add labels above bars
-for i, cost in enumerate(costs):
-    plt.text(i, cost, str(round(cost, 2)), ha='center', va='bottom')
+#for i, cost in enumerate(costs):
+#    plt.text(i, cost, str(round(cost, 2)), ha='center', va='bottom')
 
-plt.show()
+#plt.show()
 
-plt.bar(algorithms, heights, color="skyblue", edgecolor="black")
-plt.ylabel("Proportion of path above z=3")
-plt.title("Name of graph")
+#plt.bar(algorithms, heights, color="skyblue", edgecolor="black")
+#plt.ylabel("Distance at ground level")
+#plt.title("Name of graph")
 
 # Add labels above bars
-for i, height in enumerate(heights):
-    plt.text(i, height, str(round(height, 2)), ha='center', va='bottom')
+#for i, height in enumerate(heights):
+#    plt.text(i, height, str(round(height, 2)), ha='center', va='bottom')
 
-plt.show()
+#plt.show()
+
+print("Distances")
+for cost in enumerate(costs):
+    print(cost)
+print("Groundeds")
+for height in enumerate(heights):
+    print(height)

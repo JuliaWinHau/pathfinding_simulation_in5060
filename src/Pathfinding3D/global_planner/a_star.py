@@ -62,14 +62,14 @@ class AStar(GraphSearcher):
             # goal found
             if node == self.goal:
                 CLOSED[node.current] = node
-                cost, path = self.extractPath(CLOSED)
-                return cost, path, list(CLOSED.values())
+                cost, path, grounded = self.extractPath(CLOSED)
+                return cost, path, list(CLOSED.values()), grounded
 
-            for node_n in self.getNeighbor(node):                
+            for node_n in self.getNeighbor(node):
                 # exists in CLOSED list
                 if node_n.current in CLOSED:
                     continue
-                
+
                 node_n.parent = node.current
                 node_n.h = self.h(node_n, self.goal)
 
@@ -77,12 +77,12 @@ class AStar(GraphSearcher):
                 if node_n == self.goal:
                     heapq.heappush(OPEN, node_n)
                     break
-                
+
                 # update OPEN list
                 heapq.heappush(OPEN, node_n)
 
             CLOSED[node.current] = node
-        return [], [], []
+        return [], [], [], []
 
     def getNeighbor(self, node: Node) -> list:
         """
@@ -110,14 +110,24 @@ class AStar(GraphSearcher):
             path (list): the planning path
         """
         cost = 0
+        grounded = 0
         node = closed_list[self.goal.current]
         path = [node.current]
         while node != self.start:
             node_parent = closed_list[node.parent]
             cost += self.dist(node, node_parent)
+            if node.z < 4 or node_parent.z < 4:
+                if node.z < 4 and node_parent.z < 4:
+                    grounded += self.dist(node, node_parent)
+                else:
+                    lower = min(node.z, node_parent.z)
+                    higher = max(node.z, node_parent.z)
+                    whole_dist = self.dist(node, node_parent)
+                    proportion = (4 - lower) / (higher - lower)
+                    grounded += whole_dist * proportion
             node = node_parent
             path.append(node.current)
-        return cost, path
+        return cost, path, grounded
 
     def run(self):
         """
