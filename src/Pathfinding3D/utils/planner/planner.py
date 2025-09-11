@@ -22,10 +22,7 @@ class Planner(ABC):
 
     def dist(self, node1: Node, node2: Node) -> float:
         # added z dimension
-        dist = math.hypot(node2.x - node1.x, node2.y - node1.y, node2.z - node1.z)
-        if node2.z < 4:
-            dist *= 5 - node2.z
-        return dist
+        return math.hypot(node2.x - node1.x, node2.y - node1.y, node2.z - node1.z)
 
     def angle(self, node1: Node, node2: Node) -> float:
         return math.atan2(node2.y - node1.y, node2.x - node1.x)
