@@ -1,6 +1,5 @@
-# Setup
-
-for each map, ten runs(6), five where start and goal are both on the ground (3), varying goal location, and five (3)where one of them is in the air (on top of an obstacle probably)
+# Test runs setup 1
+for each map, six runs, three where start and goal are both on the ground, varying goal location, and three where one of them is in the air.
 
 Running Algorithm: AStar 
 Running Algorithm: Dijkstra 
@@ -8,6 +7,8 @@ Running Algorithm: LazyThetaStar
 Running Algorithm: GBFS 
 
 start_position for all runs (7, 7, 1)
+
+Obstacle z heights are sliglthy randomised for long x axis maps.
 
 # Runs map 1 - Block map, skyscraper style
 
