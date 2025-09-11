@@ -102,9 +102,9 @@ def generate_obstacle_gridmap(x_max=gridx, y_max=gridy, z_max=gridz,
 
 # --- Map 1
 # Block map, skyscraper style
-# start_position, goal_position = generate_obstacle_gridmap(
-#     x_max=gridx, y_max=gridy, z_max=gridz, set_goal_position=(62, 18, 2)
-# )
+start_position, goal_position = generate_obstacle_gridmap(
+    x_max=gridx, y_max=gridy, z_max=gridz, set_goal_position=(62, 18, 2)
+)
 
 # --- Map 2
 # Block map, suburban style, smaller blocks
@@ -115,9 +115,9 @@ def generate_obstacle_gridmap(x_max=gridx, y_max=gridy, z_max=gridz,
 
 # --- Map 3
 # Random scattered obstacles, all heights, sparse
-start_position, goal_position = generate_obstacles(obstacle_amount=50, x_max=gridx,
-                                                   y_max=gridy, z_max=gridz,
-                                                   set_goal_position=(62, 18, 2))
+# start_position, goal_position = generate_obstacles(obstacle_amount=50, x_max=gridx,
+#                                                    y_max=gridy, z_max=gridz,
+#                                                    set_goal_position=(62, 18, 2))
 
 # --- Map 4
 # Random scattered obstacles, limited heights, very dense
@@ -136,14 +136,6 @@ start_position, goal_position = generate_obstacles(obstacle_amount=50, x_max=gri
    # set_goal_position=(20, 18, 3)
 #)
 
-
-print("Grid size:", gridx, gridy, gridz)
-print("Start position:", start_position)
-print("Goal position:", goal_position)
-print("Start in obstacles?", start_position in obstacles)
-print("Goal in obstacles?", goal_position in obstacles)
-
-
 # Update env with new obstacles
 env.update(obstacles)
 
@@ -153,6 +145,18 @@ costs = []
 heights = []
 
 def simulate_algorithm(algorithm, elev=60, azim=80):
+    # print("Grid size:", gridx, gridy, gridz)
+    # print("Start position:", start_position)
+    # print("Goal position:", goal_position)
+    # print("Start in obstacles?", start_position in obstacles)
+    # print("Goal in obstacles?", goal_position in obstacles)
+
+    if start_position in obstacles or goal_position in obstacles:
+        print("Start or goal position is inside an obstacle. Aborting.")
+        return
+        
+    print("Running Algorithm:", algorithm.__class__.__name__, "\n")
+
     planner = algorithm
     cost, path, expand, grounded = planner.plan()
     planner.plot.ax.view_init(elev, azim) # rotating plot angle
