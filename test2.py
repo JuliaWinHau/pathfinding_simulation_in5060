@@ -17,7 +17,7 @@ from src.Pathfinding3D.global_planner.gbfs import GBFS
 # from src.Pathfinding3D.utils.planner.planner import Planner
 
 # Create environment with custom obstacles
-gridx, gridy, gridz = 70, 20, 12
+gridx, gridy, gridz = 70, 20, 13
 env = Grid(gridx, gridy, gridz)
 obstacles = set()
 
@@ -83,21 +83,23 @@ def generate_obstacles(obstacle_amount=20, x_max=gridx, y_max=gridy, z_max=gridz
 def generate_obstacle_gridmap(x_max=gridx, y_max=gridy, z_max=gridz, set_start_position=start_position, set_goal_position=goal_position):
     for x in range(0, x_max, 7):
         for y in range(0, y_max, 4):
-            for z in range(z_max):
+            block_height = random.randint(int(z_max * 0.5), z_max)
+            for z in range(block_height):
                 for i in range(4):
                     for j in range(3):
                         obstacles.add((x + i, y + j, z))
     return set_start_position, set_goal_position
                 
+# Generate obstacles and get start/goal positions
+start_position, goal_position = generate_obstacle_gridmap(
+    x_max=gridx, y_max=gridy, z_max=gridz, set_goal_position=(62, 18, 2)
+)
+print("Grid size:", gridx, gridy, gridz)
+print("Start position:", start_position)
+print("Goal position:", goal_position)
+print("Start in obstacles?", start_position in obstacles)
+print("Goal in obstacles?", goal_position in obstacles)
 
-# generate_obstacles(obstacle_amount=30)
-start_position, goal_position = generate_obstacle_gridmap(x_max=300, set_goal_position=(63, 17, 3))
-
-# Update env with new obstacles
-# env.update(obstacles)
-
-# start_position, goal_position = generate_obstacles(obstacle_amount=30)
-# start_position, goal_position = generate_obstacle_gridmap(set_goal_position=(59, 17, 3))
 
 # Update env with new obstacles
 env.update(obstacles)
