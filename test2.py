@@ -117,9 +117,20 @@ def generate_obstacle_gridmap(x_max=gridx, y_max=gridy, z_max=gridz,
 #                                                    set_goal_position=(62, 18, 2))
 
 # Random scattered obstacles, limited heights, very dense
-start_position, goal_position = generate_obstacles(obstacle_amount=400, x_max=gridx, 
-                                                   y_max=gridy, z_max=int(gridz/2), 
-                                                   set_goal_position=(62, 18, 2))
+# start_position, goal_position = generate_obstacles(obstacle_amount=400, x_max=gridx, 
+#                                                    y_max=gridy, z_max=int(gridz/2), 
+#                                                    set_goal_position=(62, 18, 2))
+
+# Grid-like small blocks
+# Create environment with custom obstacles, smaller girdx
+gridx, gridy, gridz = 25, 20, 12
+env = Grid(gridx, gridy, gridz)
+obstacles = set()
+start_position, goal_position = generate_obstacle_gridmap(
+    x_max=gridx, y_max=gridy, z_max=gridz,
+    set_start_position=(1, 1, 11), 
+    set_goal_position=(20, 18, 3)
+)
 
 
 print("Grid size:", gridx, gridy, gridz)
