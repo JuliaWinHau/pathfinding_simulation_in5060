@@ -247,37 +247,57 @@ plt.show()
 
 total_avg = [0, 0, 0] #avg of all runs
 total_avg_g = [0, 0, 0] #avg ground distance of all runs
+total_std = [[], [], []]
+total_std_g = [[], [], []]
 ground_avg = [0, 0, 0] #avg all ground-to ground
 ground_avg_g = [0, 0, 0] #etc.
+ground_std = [[], [], []]
+ground_std_g = [[], [], []]
 air_avg = [0, 0, 0]
 air_avg_g = [0, 0, 0]
+air_std = [[], [], []]
+air_std_g =[[], [], []]
 for i, algorithm in enumerate(data):
     for map in algorithm:
         groundlist = map[0]
         airlist = map[1]
         for distance in groundlist[0]:
             total_avg[i] += distance
+            total_std[i].append(distance)
             ground_avg[i] += distance
+            ground_std[i].append(distance)
         for g in groundlist[1]:
             total_avg_g[i] += g
+            total_std_g[i].append(g)
             ground_avg_g[i] += g
+            ground_std_g[i].append(g)
         for distance in airlist[0]:
             total_avg[i] += distance
+            total_std[i].append(distance)
             air_avg[i] += distance
+            air_std_g[i].append(distance)
         for g in airlist[1]:
             total_avg_g[i] += g
+            total_std_g[i].append(g)
             air_avg_g[i] += g
+            air_std_g[i].append(g)
 for i, t in enumerate(total_avg_g):
+    total_std_g[i] = np.std(total_std_g[i])
     total_avg_g[i] = t/n
 for i, t in enumerate(total_avg):
+    total_std[i] = np.std(total_std[i])
     total_avg[i] = (t/n) - total_avg_g[i]
 for i, t in enumerate(ground_avg_g):
+    ground_std_g[i] = np.std(ground_std_g[i])
     ground_avg_g[i] = t/gn
 for i, t in enumerate(ground_avg):
+    ground_std[i] = np.std(ground_std[i])
     ground_avg[i] = (t/gn) - ground_avg_g[i]
 for i, t in enumerate(air_avg_g):
+    air_std_g[i] = np.std(air_std_g[i])
     air_avg_g[i] = t/an
 for i, t in enumerate(air_avg):
+    air_std[i] = np.std(air_std[i])
     air_avg[i] = (t/an) - air_avg_g[i]
 
 weight_counts = {
@@ -294,6 +314,14 @@ for boolean, weight_count in weight_counts.items():
 
 plt.title("Average lengths of all paths")
 plt.legend(loc="lower right")
+
+plt.show()
+
+x = algorithms
+y = total_avg_g
+e = total_std_g
+
+plt.errorbar(x, y, e, linestyle='None', marker='s')
 
 plt.show()
 
