@@ -103,27 +103,27 @@ def generate_obstacle_gridmap(x_max=gridx, y_max=gridy, z_max=gridz,
 # --- Map 1
 # Block map, skyscraper style
 # start_position, goal_position = generate_obstacle_gridmap(
-#     x_max=gridx, y_max=gridy, z_max=gridz, set_goal_position=(40, 3, 22)
+#     x_max=gridx, y_max=gridy, z_max=gridz, set_goal_position=(62, 18, 2)
 # )
 
 # --- Map 2
 # Block map, suburban style, smaller blocks
 # start_position, goal_position = generate_obstacle_gridmap(
 #     x_max=gridx, y_max=gridy, z_max=int(gridz / 3), block_size_xi=2, block_size_xy=2,
-#     set_goal_position=(40, 3, 22), x_step=4, y_step=3
+#     set_goal_position=(62, 18, 2), x_step=4, y_step=3
 # )
 
 # --- Map 3
 # Random scattered obstacles, all heights, sparse
 # start_position, goal_position = generate_obstacles(obstacle_amount=50, x_max=gridx,
 #                                                    y_max=gridy, z_max=gridz,
-#                                                    set_goal_position=(40, 3, 22))
+#                                                    set_goal_position=(40, 2, 1))
 
 # --- Map 4
 # Random scattered obstacles, limited heights, very dense
 # start_position, goal_position = generate_obstacles(obstacle_amount=300, x_max=gridx,
 #                                                     y_max=gridy, z_max=int(gridz/2),
-#                                                     set_goal_position=(40, 3, 22))
+#                                                     set_goal_position=(40, 19, 20))
 
 # --- Map 5
 # Grid-like small blocks, short x axis
