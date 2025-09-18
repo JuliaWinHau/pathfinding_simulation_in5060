@@ -231,20 +231,24 @@ for i, algorithm in enumerate(data):
                 #here are your distance near ground numbers
 
 algorithms = ["A*", "Dijkstra", "LazyThetaStar"]
+colors = ["#2176b4", "#ed7d17", "#2da42d"]
+medianprops = dict(color='black')
 
-plt.boxplot(collated_dist, labels=algorithms)
-plt.title("Distances of paths by all algorithms")
+bplot = plt.boxplot(collated_dist, labels=algorithms, patch_artist=True, medianprops=medianprops)
+for patch, color in zip(bplot['boxes'], colors):
+    patch.set_facecolor(color)
+plt.title("Distances of all paths")
 plt.ylabel("Distance (m)")
 plt.show()
 
-plt.boxplot(collated_ground, labels=algorithms)
-plt.title("Distances only near ground by all algorithms")
+bplot = plt.boxplot(collated_ground, labels=algorithms,  patch_artist=True, medianprops=medianprops)
+for patch, color in zip(bplot['boxes'], colors):
+    patch.set_facecolor(color)
+plt.title("Distances near ground")
 plt.ylabel("Distance (m)")
 plt.show()
 
 # extract data
-# we need one list of averages of each algorithm for each value
-
 total_avg = [0, 0, 0] #avg of all runs
 total_avg_g = [0, 0, 0] #avg ground distance of all runs
 total_std = [[], [], []]
@@ -313,6 +317,7 @@ for boolean, weight_count in weight_counts.items():
     bottom += weight_count
 
 plt.title("Average lengths of all paths")
+plt.ylabel("Distance (m)")
 plt.legend(loc="lower right")
 
 plt.show()
