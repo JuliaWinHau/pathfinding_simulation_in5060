@@ -230,13 +230,14 @@ for i, algorithm in enumerate(data):
                 collated_ground[i].append(grounded)
                 #here are your distance near ground numbers
 
-algorithms = ["A*", "Dijkstra", "LazyThetaStar"]
+algorithms = ["A *", "Dijkstra", "Lazy Theta *"]
 colors = ["#2176b4", "#ed7d17", "#2da42d"]
 medianprops = dict(color='black')
 
 bplot = plt.boxplot(collated_dist, labels=algorithms, patch_artist=True, medianprops=medianprops)
 for patch, color in zip(bplot['boxes'], colors):
     patch.set_facecolor(color)
+plt.legend([bplot["medians"][0], bplot["boxes"][0], bplot["boxes"][1], bplot["boxes"][2]], ["median", "A *", "Dijkstra", "Lazy Theta *"], loc="upper left", fontsize="x-small")
 plt.title("Distances of all paths")
 plt.ylabel("Distance (m)")
 plt.show()
@@ -244,6 +245,7 @@ plt.show()
 bplot = plt.boxplot(collated_ground, labels=algorithms,  patch_artist=True, medianprops=medianprops)
 for patch, color in zip(bplot['boxes'], colors):
     patch.set_facecolor(color)
+plt.legend([bplot["medians"][0], bplot["boxes"][0], bplot["boxes"][1], bplot["boxes"][2]], ["median", "A *", "Dijkstra", "Lazy Theta *"], loc="upper left", fontsize="x-small")
 plt.title("Distances near ground")
 plt.ylabel("Distance (m)")
 plt.show()
@@ -347,20 +349,22 @@ for i, algorithm in enumerate(data):
 
 x = range(0, len(collated_dist_w_0[0]))
 
-plt.plot(x, collated_dist_w_0[0], "o", label="AStar")
+plt.plot(x, collated_dist_w_0[0], "o", label="A *")
 plt.plot(x, collated_dist_w_0[1], "o", label="Dijkstra")
-plt.plot(x, collated_dist_w_0[2], "o", label="Lazy ThetaStar")
+plt.plot(x, collated_dist_w_0[2], "o", label="Lazy Theta *")
 plt.title("Difference in path length across all runs")
 plt.legend(title="Algorithms:", loc="upper right", fontsize="x-small")
 plt.ylabel("Distance (m)")
-plt.xlabel("Runs")
+plt.xlabel("Run (1-30)")
+plt.xticks([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29],["1","","","","","","7","","","","","","13","","","","","","19","","","","","","25"])
 plt.show()
 
-plt.plot(x, collated_ground_w_0[0], "o", label="AStar")
+plt.plot(x, collated_ground_w_0[0], "o", label="A *")
 plt.plot(x, collated_ground_w_0[1], "o", label="Dijkstra")
-plt.plot(x, collated_ground_w_0[2], "o", label="Lazy ThetaStar")
+plt.plot(x, collated_ground_w_0[2], "o", label="Lazy Theta *")
 plt.title("Difference in grounded path length across all runs")
 plt.legend(title="Algorithms:", loc="upper right", fontsize="x-small")
 plt.ylabel("Distance (m)")
-plt.xlabel("Runs")
+plt.xlabel("Run (1-30)")
+plt.xticks([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29],["1","","","","","","7","","","","","","13","","","","","","19","","","","","","25"])
 plt.show()
